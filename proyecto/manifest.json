@@ -1,0 +1,43 @@
+{
+  "name": "Proyecto Probabilidad",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Analiza la probabilidad de que cada vendedor de Amazon sea el mejor, tomando en cuenta su calificación y el número de calificaciones.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "scripts": [
+      "src/bg/background.js"
+    ],
+    "persistent": false
+  },
+  "page_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "page action demo",
+    "default_popup": "src/page_action/page_action.html"
+  },
+  "permissions": [
+    "https://www.amazon.com.mx/"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.com.mx/*"
+      ],
+      "css": [
+        "src/inject/inject.css"
+      ]
+    },
+    {
+      "matches": [
+        "https://www.amazon.com.mx/*"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}
