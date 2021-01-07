@@ -1,4 +1,5 @@
 <!doctype html>
+<html>
 <style type="text/css">
 	#mainPopup {
 		padding: 10px;
@@ -11,7 +12,12 @@
 	}
 </style>
 
-<div id="mainPopup">
-<h1>Hello extensionizr!</h1>
-<p>To shut this popup down, edit the manifest file and remove the "default popup" key. To edit it, just edit ext/page_action/page_action.html. The CSS is there, too.</p>
-</div>
+<body>
+  <div id="mainPopup">
+    <h1>Hello extensionizr!</h1>
+    <p>To shut this popup down, edit the manifest file and remove the "default popup" key. To edit it, just edit ext/page_action/page_action.html. The CSS is there, too.</p>
+    <button id="clickme">click me</button>
+  </div>
+  <script type="module" src="./popup.js"></script>
+</body>
+</html>

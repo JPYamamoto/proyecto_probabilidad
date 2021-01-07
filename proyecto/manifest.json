@@ -10,17 +10,19 @@
   },
   "background": {
     "scripts": [
-      "src/bg/background.js"
+      "src/bg/controller.js"
     ],
     "persistent": false
   },
-  "page_action": {
+  "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "page action demo",
+    "default_title": "Amazon Reviews",
     "default_popup": "src/page_action/page_action.html"
   },
   "permissions": [
-    "https://www.amazon.com.mx/"
+    "https://www.amazon.com.mx/",
+    "tabs",
+    "activeTab"
   ],
   "content_scripts": [
     {
@@ -39,5 +41,9 @@
         "src/inject/inject.js"
       ]
     }
+  ],
+  "web_accessible_resources": [
+    "src/inject/parse_dom.js",
+    "src/inject/rating.js"
   ]
 }
