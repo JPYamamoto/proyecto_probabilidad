@@ -15,11 +15,9 @@ export default class Rating {
    * Regresamos un objetos JSON con toda la información sobre el vendedor.
    */
   rate({id, num_calificaciones, calificacion}) {
-    // Aquí va tu código.
+    const positivas = Math.round(num_calificaciones*(calificacion/100)); 
 
-    // El resultado de este método debe quedar en la variable resultado pues esa
-    // es la que se regresa, el 0.5 es solo un valor arbitario para que compile.
-    const resultado = 0.5;
+    const resultado = (positivas+1)/(num_calificaciones + 2);
 
     return {id, num_calificaciones, calificacion, resultado};
   }
