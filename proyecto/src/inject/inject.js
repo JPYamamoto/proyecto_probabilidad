@@ -11,8 +11,11 @@
   chrome.runtime.onMessage.addListener(
     function(request, _, sendResponse) {
       switch (request.action) {
-        case "parse_dom":
-          sendResponse({vendedores: ParseDOM.parse()});
+        case "parse_dom_sellers":
+          sendResponse({vendedores: ParseDOM.parseAllSellers()});
+          break;
+        case "parse_dom_single":
+          sendResponse({vendedor: ParseDOM.parseCurrentSeller()});
           break;
         case "compute_rating":
           sendResponse({vendedor: Rating.rate(request.vendedor)});

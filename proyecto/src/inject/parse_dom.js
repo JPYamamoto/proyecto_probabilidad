@@ -1,7 +1,7 @@
 export default class ParseDOM {
   constructor() {  }
 
-  parse() {
+  parseAllSellers() {
     const container = document.getElementById("aod-offer-list");
     const htmlElems = this.retrieveOffers(container);
     this.generateIds(htmlElems);

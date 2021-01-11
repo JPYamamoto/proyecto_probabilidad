@@ -7,20 +7,28 @@
 
 //example of using a message handler from the inject scripts
 chrome.extension.onMessage.addListener(
-  function(_, _, sendResponse) {
+  function(source, _, sendResponse) {
+
     chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        {action: "parse_dom"},
-        (response) => handleParse(tabs[0].id, response)
-      );
+      switch (source.name) {
+        case "sellers":
+          chrome.tabs.sendMessage(tabs[0].id, {action: "parse_dom_sellers"},
+            (response) => handleParseMany(tabs[0].id, response)
+          );
+          break;
+        case "currSeller":
+          chrome.tabs.sendMessage(tabs[0].id, {action: "parse_dom_single"},
+            (response) => handleParse(tabs[0].id, response)
+          );
+        break;
+        }
     });
 
     sendResponse();
   }
 );
 
-function handleParse(tabId, response) {
+function handleParseMany(tabId, response) {
   response.vendedores.forEach((vendedor) => {
     chrome.tabs.sendMessage(
       tabId,
@@ -28,6 +36,10 @@ function handleParse(tabId, response) {
       (response) => handleRating(response)
     );
   })
+}
+
+function handleParse(tabId, response) {
+  console.log("hola");
 }
 
 function handleRating(response) {
