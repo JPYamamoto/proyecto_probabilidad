@@ -15,12 +15,59 @@ export default class Rating {
    * Regresamos un objetos JSON con toda la información sobre el vendedor.
    */
   rate({id, num_calificaciones, calificacion}) {
-    // Aquí va tu código.
+    const positivas = Math.round(num_calificaciones*(calificacion/100));
 
-    // El resultado de este método debe quedar en la variable resultado pues esa
-    // es la que se regresa, el 0.5 es solo un valor arbitario para que compile.
-    const resultado = 0.5;
+    const resultado = (positivas+1)/(num_calificaciones + 2);
 
     return {id, num_calificaciones, calificacion, resultado};
+  }
+
+  /**
+   * Entrada:
+   * {
+   *    "id": integer,
+   *    "num_calificaciones": integer (número total de calificaciones),
+   *    "1": float (entre 0 y 1, el porcentaje del total que tiene 1 estrella),
+   *    "2": float (entre 0 y 1, el porcentaje del total que tiene 2 estrellas),
+   *    "3": float (entre 0 y 1, el porcentaje del total que tiene 3 estrellas),
+   *    "4": float (entre 0 y 1, el porcentaje del total que tiene 4 estrellas),
+   *    "5": float (entre 0 y 1, el porcentaje del total que tiene 5 estrellas),
+   * }
+   *
+   * Nota que la suma de los porcentajes de las estrellas no necesariamente da
+   * exactamente 1, Amazon las redondea. Pero no importa, suponemos que el
+   * error es mínimo.
+   *
+   * Salida:
+   * {
+   *    "id": integer,
+   *    "num_calificaciones": integer,
+   *    "media": float (tal vez es más fácil sacarlo como la esperanza porque tenemos la
+   *                    probabilidad de que salga cada estrella, y cuánto vale cada estrella),
+   *    "mediana": float,
+   *    "moda": [integer] (lista de enteros porque puede haber más de una moda),
+   * }
+   */
+  succession_rule({id, num_calificaciones, ...estrellas}) {
+    /**
+     * La variable estrellas es solo la parte con la información de cuántas
+     * estrellas tiene el vendedor. Ejemplo:
+     *
+     * estrellas = {
+     *   "1": 0.03,
+     *   "2": 0.03,
+     *   "3": 0.05,
+     *   "4": 0.09,
+     *   "5": 0.8,
+     * }
+     *
+     * Nota que como las llaves son strings accederías al
+     * porcentaje de 1 estrellas con estrellas["1"].
+     */
+    const media = 0;
+    const mediana = 0;
+    const moda = 0;
+
+    return {id, num_calificaciones, media, mediana, moda};
   }
 }
