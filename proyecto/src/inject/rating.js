@@ -15,7 +15,7 @@ export default class Rating {
    * Regresamos un objetos JSON con toda la información sobre el vendedor.
    */
   rate({id, num_calificaciones, calificacion}) {
-    const positivas = Math.round(num_calificaciones*(calificacion/100));
+    const positivas = Math.round(num_calificaciones*calificacion);
 
     const resultado = (positivas+1)/(num_calificaciones + 2);
 
@@ -64,9 +64,25 @@ export default class Rating {
      * Nota que como las llaves son strings accederías al
      * porcentaje de 1 estrellas con estrellas["1"].
      */
-    const media = 0;
-    const mediana = 0;
-    const moda = 0;
+    var media = 0;
+    for(var i = 1; i<= 5; i++){
+        media += (i*estrellas[`${i.toString()}`]);
+    }
+    
+    var mediana =0;
+    for(var i = 0; i < .5 ;i += estrellas[`${mediana.toString()}`]){
+        mediana++;
+    }
+
+    var moda = 0;
+    var maximo = estrellas["1"];
+        for(var i = 1; i <= 5; i++) {
+            var aux =estrellas[`${i.toString()}`];
+            if(aux > maximo) {
+                maximo = aux;
+                moda = i;
+            }
+        }
 
     return {id, num_calificaciones, media, mediana, moda};
   }
