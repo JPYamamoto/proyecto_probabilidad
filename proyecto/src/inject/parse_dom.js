@@ -3,6 +3,10 @@ export default class ParseDOM {
 
   parseAllSellers() {
     const container = document.getElementById("aod-offer-list");
+    if (!container) {
+      return;
+    }
+
     const htmlElems = this.retrieveOffers(container);
     this.generateIds(htmlElems);
     return this.parseOffers(htmlElems);
@@ -42,5 +46,45 @@ export default class ParseDOM {
       num_calificaciones: 0,
       calificacion: 0
     };
+  }
+
+  parseCurrentSeller() {
+    const container = document.querySelector("#reviewsMedley .a-fixed-left-grid-col.a-col-left");
+    if (!container) {
+      return;
+    }
+
+    const num_calificaciones = this.parseTotalRatings(container);
+    const ratings = this.parseRatings(container);
+
+    return {
+      id: "main",
+      num_calificaciones: num_calificaciones,
+      ...ratings
+    };
+  }
+
+  parseTotalRatings(container) {
+    const ratings = container.querySelector("[data-hook='total-review-count']");
+    let numbers = ratings.innerText.match(/^\d+|\d+\b|\d+(?=\w)/g);
+
+    return Number.parseFloat(numbers[0]);
+  }
+
+  parseRatings(container) {
+    const ratingsTable = container.querySelector("table > tbody");
+    const allRatings = ratingsTable.querySelectorAll("tr");
+
+    const result = {};
+    Array.from(allRatings).forEach(elem => {
+      const text = elem.querySelector("a").title;
+      let numbers = text.match(/^\d+|\d+\b|\d+(?=\w)/g);
+
+      result[numbers[1]] = Number.parseFloat(numbers[0]) / 100;
+
+      return result;
+    });
+
+    return result;
   }
 }

@@ -17,7 +17,7 @@ chrome.extension.onMessage.addListener(
           );
           break;
         case "currSeller":
-          chrome.tabs.sendMessage(tabs[0].id, {action: "parse_dom_single"},
+          chrome.tabs.sendMessage(tabs[0].id, {action: "parse_dom_current"},
             (response) => handleParse(tabs[0].id, response)
           );
         break;
@@ -29,17 +29,29 @@ chrome.extension.onMessage.addListener(
 );
 
 function handleParseMany(tabId, response) {
+  if (!response) {
+    return;
+  }
+
   response.vendedores.forEach((vendedor) => {
     chrome.tabs.sendMessage(
       tabId,
-      {action: "compute_rating", vendedor: vendedor},
+      {action: "compute_rating_many", vendedor: vendedor},
       (response) => handleRating(response)
     );
   })
 }
 
 function handleParse(tabId, response) {
-  console.log("hola");
+  if (!response) {
+    return;
+  }
+
+  chrome.tabs.sendMessage(
+    tabId,
+    {action: "compute_rating_current", vendedor: response.vendedor},
+    (response) => handleRating(response)
+  );
 }
 
 function handleRating(response) {

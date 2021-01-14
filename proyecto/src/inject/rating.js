@@ -68,7 +68,7 @@ export default class Rating {
     for(var i = 1; i<= 5; i++){
         media += (i*estrellas[`${i.toString()}`]);
     }
-    
+
     var mediana =0;
     for(var i = 0; i < .5 ;i += estrellas[`${mediana.toString()}`]){
         mediana++;
