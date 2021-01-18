@@ -50,6 +50,7 @@ export default class ParseDOM {
 
   parseCurrentSeller() {
     const container = document.querySelector("#reviewsMedley .a-fixed-left-grid-col.a-col-left");
+    container.setAttribute("id", "main-seller");
     if (!container) {
       return;
     }
@@ -58,7 +59,7 @@ export default class ParseDOM {
     const ratings = this.parseRatings(container);
 
     return {
-      id: "main",
+      id: "main-seller",
       num_calificaciones: num_calificaciones,
       ...ratings
     };
