@@ -1,5 +1,5 @@
 export default class ParseDOM {
-  constructor() {  }
+  constructor() {}
 
   parseAllSellers() {
     const container = document.getElementById("aod-offer-list");
@@ -29,7 +29,8 @@ export default class ParseDOM {
   }
 
   parseSingleOffer(htmlElement) {
-    const ratingInfo = htmlElement.querySelector("[id=aod-offer-seller-rating]").innerText;
+    const ratingInfo = htmlElement.querySelector("[id=aod-offer-seller-rating]")
+      .innerText;
     let numbers = ratingInfo.match(/^\d+|\d+\b|\d+(?=\w)/g);
     if (numbers) {
       numbers = numbers.map((num) => Number.parseFloat(num));
@@ -37,19 +38,21 @@ export default class ParseDOM {
       return {
         id: htmlElement.id,
         num_calificaciones: numbers[0],
-        calificacion: (numbers[1] / 100)
+        calificacion: numbers[1] / 100,
       };
     }
 
     return {
       id: htmlElement.id,
       num_calificaciones: 0,
-      calificacion: 0
+      calificacion: 0,
     };
   }
 
   parseCurrentSeller() {
-    const container = document.querySelector("#reviewsMedley .a-fixed-left-grid-col.a-col-left");
+    const container = document.querySelector(
+      "#reviewsMedley .a-fixed-left-grid-col.a-col-left"
+    );
     container.setAttribute("id", "main-seller");
     if (!container) {
       return;
@@ -61,7 +64,7 @@ export default class ParseDOM {
     return {
       id: "main-seller",
       num_calificaciones: num_calificaciones,
-      ...ratings
+      ...ratings,
     };
   }
 
@@ -77,7 +80,7 @@ export default class ParseDOM {
     const allRatings = ratingsTable.querySelectorAll("tr");
 
     const result = {};
-    Array.from(allRatings).forEach(elem => {
+    Array.from(allRatings).forEach((elem) => {
       const text = elem.querySelector("a").title;
       let numbers = text.match(/^\d+|\d+\b|\d+(?=\w)/g);
 

@@ -1,5 +1,5 @@
 export default class Rating {
-  constructor() {  }
+  constructor() {}
 
   /**
    * Método que recibe el número de calificaciones que tiene el vendedor
@@ -14,12 +14,12 @@ export default class Rating {
    *
    * Regresamos un objetos JSON con toda la información sobre el vendedor.
    */
-  rate({id, num_calificaciones, calificacion}) {
-    const positivas = Math.round(num_calificaciones*calificacion);
+  rate({ id, num_calificaciones, calificacion }) {
+    const positivas = Math.round(num_calificaciones * calificacion);
 
-    const resultado = (positivas+1)/(num_calificaciones + 2);
+    const resultado = (positivas + 1) / (num_calificaciones + 2);
 
-    return {id, num_calificaciones, calificacion, resultado};
+    return { id, num_calificaciones, calificacion, resultado };
   }
 
   /**
@@ -48,7 +48,7 @@ export default class Rating {
    *    "moda": [integer] (lista de enteros porque puede haber más de una moda),
    * }
    */
-  succession_rule({id, num_calificaciones, ...estrellas}) {
+  succession_rule({ id, num_calificaciones, ...estrellas }) {
     /**
      * La variable estrellas es solo la parte con la información de cuántas
      * estrellas tiene el vendedor. Ejemplo:
@@ -65,25 +65,25 @@ export default class Rating {
      * porcentaje de 1 estrellas con estrellas["1"].
      */
     var media = 0;
-    for(var i = 1; i<= 5; i++){
-        media += (i*estrellas[`${i.toString()}`]);
+    for (var i = 1; i <= 5; i++) {
+      media += i * estrellas[`${i.toString()}`];
     }
 
-    var mediana =0;
-    for(var i = 0; i < .5 ;i += estrellas[`${mediana.toString()}`]){
-        mediana++;
+    var mediana = 0;
+    for (var i = 0; i < 0.5; i += estrellas[`${mediana.toString()}`]) {
+      mediana++;
     }
 
     var moda = 0;
     var maximo = estrellas["1"];
-        for(var i = 1; i <= 5; i++) {
-            var aux =estrellas[`${i.toString()}`];
-            if(aux > maximo) {
-                maximo = aux;
-                moda = i;
-            }
-        }
+    for (var i = 1; i <= 5; i++) {
+      var aux = estrellas[`${i.toString()}`];
+      if (aux > maximo) {
+        maximo = aux;
+        moda = i;
+      }
+    }
 
-    return {id, num_calificaciones, media, mediana, moda};
+    return { id, num_calificaciones, media, mediana, moda };
   }
 }
