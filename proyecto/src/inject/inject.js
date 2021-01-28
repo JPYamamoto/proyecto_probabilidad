@@ -1,35 +1,24 @@
-(async () => {
+const setUpParsers = async () => {
   const srcParseDom = chrome.extension.getURL("src/inject/parse_dom.js");
   const srcRating = chrome.extension.getURL("src/inject/rating.js");
 
-  const importParseDom = await import(srcParseDom);
-  const importRating = await import(srcRating);
+  const { parseCurrentSeller, parseAllSellers } = await import(srcParseDom);
+  const { rate, succession_rule } = await import(srcRating);
 
-  const ParseDOM = new importParseDom.default();
-  const Rating = new importRating.default();
+  chrome.runtime.onMessage.addListener((request, _source, sendResponse) => {
+    const { action, raw_data } = request;
+    const options = {
+      parse_dom_current: () => sendResponse({ raw_data: parseCurrentSeller() }),
+      parse_dom_sellers: () => sendResponse({ raw_data: parseAllSellers() }),
 
-  chrome.runtime.onMessage.addListener(function (request, _, sendResponse) {
-    switch (request.action) {
-      case "parse_dom_sellers":
-        const sellers = ParseDOM.parseAllSellers();
-        if (sellers) {
-          sendResponse({ vendedores: sellers });
-        }
-        sendResponse();
-        break;
-      case "parse_dom_current":
-        const seller = ParseDOM.parseCurrentSeller();
-        if (seller) {
-          sendResponse({ vendedor: seller });
-        }
-        sendResponse();
-        break;
-      case "compute_rating_many":
-        sendResponse({ vendedor: Rating.rate(request.vendedor) });
-        break;
-      case "compute_rating_current":
-        sendResponse({ vendedor: Rating.succession_rule(request.vendedor) });
-        break;
-    }
+      compute_rating_current: () => sendResponse(succession_rule(raw_data)),
+      compute_rating_many: () => sendResponse(rate(raw_data)),
+    };
+
+    options[action]?.();
   });
-})();
+
+  return true;
+};
+
+setUpParsers();

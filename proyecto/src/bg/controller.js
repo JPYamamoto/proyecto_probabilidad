@@ -6,8 +6,8 @@ chrome.extension.onMessage.addListener((message, _sender, sendResponse) => {
     console.log({ message });
     const options = {
       extension_trigger_single: () => {
-        const andThenCompute = ({ vendedor }) => {
-          const message = { action: "compute_rating_current", vendedor };
+        const andThenCompute = ({ raw_data }) => {
+          const message = { action: "compute_rating_current", raw_data };
           chrome.tabs.sendMessage(tabID, message, wrapResponse);
         };
 
@@ -16,11 +16,12 @@ chrome.extension.onMessage.addListener((message, _sender, sendResponse) => {
       },
 
       extension_trigger_multiple: () => {
-        const andThenCompute = (data) => {
-          data
-            ? data.vendedores?.forEach((vendedor) => {
-                const message = { action: "compute_rating_many", vendedor };
-                chrome.tabs.sendMessage(tabID, wrapResponse);
+        const andThenCompute = ({ raw_data }) => {
+          console.log({raw_data})
+          raw_data
+            ? raw_data?.forEach((vendedor) => {
+                const message = { action: "compute_rating_many", raw_data };
+                chrome.tabs.sendMessage(tabID, message, wrapResponse);
               })
             : wrapResponse();
         };
