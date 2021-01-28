@@ -1,23 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<style type="text/css">
-	#mainPopup {
-		padding: 10px;
-		height: 200px;
-		width: 400px;
-		font-family: Helvetica, Ubuntu, Arial, sans-serif;
-	}
-	h1 {
-		font-size: 2em;
-	}
-</style>
+  <head>
+    <meta charset="UTF-8" />
+  </head>
 
-<body>
-  <div id="mainPopup">
-    <h1>Hola Mundo.</h1>
-    <button id="click-single">Analizar este vendedor.</button>
-    <button id="click-sellers">Analizar otros vendedores.</button>
-  </div>
-  <script type="module" src="./popup.js"></script>
-</body>
+  <style>
+    @import url("https://rsms.me/inter/inter.css");
+
+    @supports (font-variation-settings: normal) {
+      html {
+        font-family: "Inter var", Helvetica, Ubuntu, sans-serif;
+      }
+    }
+
+    html {
+      background-color: #dddddd;
+      color: #222831;
+      font-family: "Inter", Helvetica, Ubuntu, sans-serif;
+      padding: 2rem;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    button {
+      background-color: #f05454;
+      color: #dddddd;
+      font-size: 1.3rem;
+      border: none;
+      margin: 1rem 0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 1rem;
+    }
+
+    .result {
+      font-size: 1.4rem;
+    }
+  </style>
+
+  <body>
+    <article>
+      <h1>¿Cuál vendedor es mejor?</h1>
+      <section>
+        <button id="click-single-seller">Analizar este vendedor</button>
+        <div id="single-seller"></div>
+      </section>
+      <section>
+        <button id="click-multiple-sellers">Analizar otros vendedores</button>
+      </section>
+    </article>
+  </body>
+
+  <script defer src="./popup.js"></script>
 </html>
