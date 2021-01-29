@@ -37,7 +37,8 @@ const parseSingleOffer = (htmlElement) => {
 
 const parseTotalRatings = (container) => {
   const ratings = container.querySelector("[data-hook='total-review-count']");
-  let numbers = ratings.innerText.match(/^\d+|\d+\b|\d+(?=\w)/g);
+  const text = ratings.innerText.replace(/,/g, '');
+  let numbers = text.match(/^\d+|\d+\b|\d+(?=\w)/g);
 
   return Number.parseFloat(numbers[0]);
 };
@@ -47,11 +48,12 @@ const parseRatings = (container) => {
   const allRatings = ratingsTable.querySelectorAll("tr");
 
   const result = {};
-  Array.from(allRatings).forEach((elem) => {
-    const text = elem.querySelector("a").title;
+  Array.from(allRatings).forEach((elem, i) => {
+    const text = elem.querySelector("a")?.title || "0";
     let numbers = text.match(/^\d+|\d+\b|\d+(?=\w)/g);
+    const index = numbers[1] || (5 - i).toString();
 
-    result[numbers[1]] = Number.parseFloat(numbers[0]) / 100;
+    result[index] = Number.parseFloat(numbers[0]) / 100;
 
     return result;
   });

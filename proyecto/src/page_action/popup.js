@@ -8,8 +8,10 @@ document.get("click-single-seller").onclick = () => chrome.runtime.send(single, 
 document.get("click-multiple-sellers").onclick = () => chrome.runtime.send(multiple, console.log);
 
 const printSingle = ({ response }) => {
+  const porcentaje = (response.regla_sucesion * 100).toFixed(3);
   document.get("single-seller").innerHTML = `
   <div class="result">
+    <p><b>Experiencia positiva: </b> ${porcentaje}%</p>
     <p><b>Media: </b> ${response.media}</p>
     <p><b>Mediana: </b> ${response.mediana}</p>
     <p><b>Moda: </b> ${response.moda}</p>

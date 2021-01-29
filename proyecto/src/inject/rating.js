@@ -41,10 +41,10 @@ const rate = ({ id, num_calificaciones, calificacion }) => {
  *    "media": float (tal vez es más fácil sacarlo como la esperanza porque tenemos la
  *                    probabilidad de que salga cada estrella, y cuánto vale cada estrella),
  *    "mediana": float,
- *    "moda": [integer] (lista de enteros porque puede haber más de una moda),
+ *    "moda": integer
  * }
  */
-const succession_rule = ({ id, num_calificaciones, ...estrellas }) => {
+const indicators = ({ id, num_calificaciones, ...estrellas }) => {
   /**
    * La variable estrellas es solo la parte con la información de cuántas
    * estrellas tiene el vendedor. Ejemplo:
@@ -60,6 +60,9 @@ const succession_rule = ({ id, num_calificaciones, ...estrellas }) => {
    * Nota que como las llaves son strings accederías al
    * porcentaje de 1 estrellas con estrellas["1"].
    */
+  const positivas = Math.round((estrellas['5'] + estrellas['4']) * num_calificaciones);
+  const regla_sucesion = (positivas + 1) / (num_calificaciones + 2);
+
   let media = 0;
   for (const [star, val] of Object.entries(estrellas)) {
     media += +star * val;
@@ -75,7 +78,7 @@ const succession_rule = ({ id, num_calificaciones, ...estrellas }) => {
     .filter(([_start, val]) => val == most_common)
     .map(([start]) => +start);
 
-  return { id, num_calificaciones, media, mediana, moda };
+  return { id, num_calificaciones, media, mediana, moda, regla_sucesion };
 };
 
-export { rate, succession_rule };
+export { rate, indicators };
