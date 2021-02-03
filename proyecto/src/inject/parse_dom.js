@@ -7,6 +7,10 @@ const generateIds = (htmlElems) => {
   htmlElems.forEach((elem, i) => {
     elem.setAttribute("id", `offer-${i}`);
     elem.classList.add("offer-extension");
+    const h1 = document.createElement("h1");
+    const content = document.createTextNode(`Oferta ${i}`);
+    h1.append(content);
+    elem.prepend(h1);
   });
 };
 
