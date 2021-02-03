@@ -11,12 +11,16 @@
  *
  * Regresamos un objetos con toda la información.
  */
-const rate = ({ id, num_calificaciones, calificacion }) => {
+const rate = (args) => {
+  return args.map(rateOne);
+};
+
+const rateOne = ({ id, num_calificaciones, calificacion }) => {
   const positivas = Math.round(num_calificaciones * calificacion);
   const resultado = (positivas + 1) / (num_calificaciones + 2);
 
   return { id, num_calificaciones, calificacion, resultado };
-};
+}
 
 /**
  * Entrada:
