@@ -24,7 +24,6 @@ const printSingle = ({ response }) => {
 };
 
 const printAll = ({ response }) => {
-  console.log(response);
   const numFromId = (id) => Number.parseInt(id.replace("offer-", ""));
   document.get("all-sellers").innerHTML = `
   <div class="result">
