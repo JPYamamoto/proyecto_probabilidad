@@ -20,9 +20,7 @@ document.get("click-multiple-sellers").onclick = () => chrome.runtime.send(multi
  * @param {Number} number Número de punto flotante.
  * @return {Number}       Número como porcentaje.
  */
-const floatToPercent = (number) => {
-  return (number * 100).toFixed(3);
-}
+const floatToPercent = (number) => (number * 100).toFixed(3)
 
 // Muestra la información de un solo vendedor.
 const printSingle = ({ response }) => {

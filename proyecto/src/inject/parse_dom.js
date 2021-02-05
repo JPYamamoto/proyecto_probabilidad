@@ -10,7 +10,7 @@
  * @return {[Element]}        Elementos con las distintas ofertas.
  */
 const retrieveOffers = (container) => {
-  const offers = container.querySelectorAll("[id=aod-offer]");
+  const offers = container.querySelectorAll(":scope > div[id*='offer']");
   return [...offers];
 };
 
@@ -20,12 +20,16 @@ const retrieveOffers = (container) => {
  */
 const generateIds = (htmlElems) => {
   htmlElems.forEach((elem, i) => {
-    elem.setAttribute("id", `offer-${i}`);
-    elem.classList.add("offer-extension");
-    const h1 = document.createElement("h1");
-    const content = document.createTextNode(`Oferta ${i}`);
-    h1.append(content);
-    elem.prepend(h1);
+    const id = `offer-${i}`;
+    const already = document.getElementById(id);
+    if (!already) {
+      elem.setAttribute("id", id);
+      elem.classList.add("offer-extension");
+      const h1 = document.createElement("h1");
+      const content = document.createTextNode(`Oferta #${i}`);
+      h1.append(content);
+      elem.prepend(h1);
+    }
   });
 };
 
@@ -72,7 +76,7 @@ const parseSingleOffer = (htmlElement) => {
  */
 const parseTotalRatings = (container) => {
   const ratings = container.querySelector("[data-hook='total-review-count']");
-  const text = ratings.innerText.replace(/,/g, '');
+  const text = ratings.innerText.replace(/,/g, "");
   let numbers = text.match(/^\d+|\d+\b|\d+(?=\w)/g);
 
   return Number.parseFloat(numbers[0]);
@@ -137,6 +141,7 @@ const parseAllSellers = () => {
   }
 
   const htmlElems = retrieveOffers(container);
+
   generateIds(htmlElems);
   return parseOffers(htmlElems);
 };

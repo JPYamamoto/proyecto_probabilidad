@@ -27,12 +27,10 @@ chrome.extension.onMessage.addListener((message, _sender, sendResponse) => {
       extension_trigger_multiple: () => {
         // Calcula la información de múltiples vendedores.
         const andThenCompute = ({ raw_data }) => {
-          raw_data
-            ? raw_data?.forEach((vendedor) => {
-                const message = { action: "compute_rating_many", raw_data };
-                chrome.tabs.sendMessage(tabID, message, wrapResponse);
-              })
-            : wrapResponse();
+          raw_data.forEach((vendedor) => {
+            const message = { action: "compute_rating_many", raw_data };
+            chrome.tabs.sendMessage(tabID, message, wrapResponse);
+          });
         };
 
         // Rescata la información de varios vendedores, desde el DOM.
