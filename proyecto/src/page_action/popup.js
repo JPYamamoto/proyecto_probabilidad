@@ -1,5 +1,12 @@
+/**
+ * # Popup
+ * Script que maneja el despliegue de la información en la ventana de la extensión.
+ */
+
+// Usa la consola de la página.
 chrome.runtime.getBackgroundPage((page) => (console = page.console));
 
+// Envía mensajes al controlador.
 chrome.runtime.send = chrome.runtime.sendMessage;
 document.get = document.getElementById;
 const [single, multiple] = ["extension_trigger_single", "extension_trigger_multiple"];
@@ -7,10 +14,17 @@ const [single, multiple] = ["extension_trigger_single", "extension_trigger_multi
 document.get("click-single-seller").onclick = () => chrome.runtime.send(single, printSingle);
 document.get("click-multiple-sellers").onclick = () => chrome.runtime.send(multiple, printAll);
 
+/**
+ * floatToPercent Escribe el porcentaje correspondiente a un número de tipo
+ *                punto flotante.
+ * @param {Number} number Número de punto flotante.
+ * @return {Number}       Número como porcentaje.
+ */
 const floatToPercent = (number) => {
   return (number * 100).toFixed(3);
 }
 
+// Muestra la información de un solo vendedor.
 const printSingle = ({ response }) => {
   const porcentaje = floatToPercent(response.regla_sucesion);
   document.get("single-seller").innerHTML = `
@@ -23,12 +37,13 @@ const printSingle = ({ response }) => {
   </div>`;
 };
 
+// Muestra la información de varios vendedores.
 const printAll = ({ response }) => {
   const numFromId = (id) => Number.parseInt(id.replace("offer-", ""));
   document.get("all-sellers").innerHTML = `
   <div class="result">
-		${response.map(({ id, resultado }) => (
-				`<p><b>Oferta ${numFromId(id)}: ${floatToPercent(resultado)}% positiva</b></p>`
-			)).join("")}
+    ${response.map(({ id, resultado }) => (
+        `<p><b>Oferta ${numFromId(id)}: ${floatToPercent(resultado)}% positiva</b></p>`
+      )).join("")}
   </div>`;
 };

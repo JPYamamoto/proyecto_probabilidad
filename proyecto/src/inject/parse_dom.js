@@ -1,8 +1,23 @@
+/**
+ * # Parse DOM
+ *
+ * Funciones relacionadas al análisis y extracción de la información.
+ */
+
+/**
+ * retrieveOffers Rescata las ofertas de vendedores.
+ * @param {Element} container Elemento del DOM que contiene ofertas de los vendedores.
+ * @return {[Element]}        Elementos con las distintas ofertas.
+ */
 const retrieveOffers = (container) => {
   const offers = container.querySelectorAll("[id=aod-offer]");
   return [...offers];
 };
 
+/**
+ * generateIds Genera IDs para poder identificar a cada vendedor.
+ * @param {[Element]} htmlElems Elementos del DOM con los distintos vendedores.
+ */
 const generateIds = (htmlElems) => {
   htmlElems.forEach((elem, i) => {
     elem.setAttribute("id", `offer-${i}`);
@@ -14,10 +29,20 @@ const generateIds = (htmlElems) => {
   });
 };
 
+/**
+ * parseOffers Extrae la información de múltiples vendedores.
+ * @param {[Element]} htmlElems Elementos del DOM con los distintos vendedores.
+ * @return {[Object]}           Objetos que contienen la información de los vendedores.
+ */
 const parseOffers = (htmlElems) => {
   return htmlElems.map((elem) => parseSingleOffer(elem));
 };
 
+/**
+ * parseSingleOffer Obtiene la información de un solo vendedor.
+ * @param {Element} htmlElement Elemento del DOM con la información del vendedor.
+ * @return {Object}             Objeto con la información del vendedor.
+ */
 const parseSingleOffer = (htmlElement) => {
   const ratingInfo = htmlElement.querySelector("[id=aod-offer-seller-rating]")
     .innerText;
@@ -39,6 +64,12 @@ const parseSingleOffer = (htmlElement) => {
   };
 };
 
+/**
+ * parseTotalRatings Extrae el número de reviews de un vendedor.
+ * @param {Element} container El contenedor con la información de las
+ *                            calificaciones.
+ * @returns {Number}          El número de reviews.
+ */
 const parseTotalRatings = (container) => {
   const ratings = container.querySelector("[data-hook='total-review-count']");
   const text = ratings.innerText.replace(/,/g, '');
@@ -47,6 +78,12 @@ const parseTotalRatings = (container) => {
   return Number.parseFloat(numbers[0]);
 };
 
+/**
+ * parseRatings Extrae la información de las calificaciones de un vendedor.
+ * @param {Element} container El contenedor con la información de las
+ *                            calificaciones.
+ * @returns {Object}          Un objeto que simula una función de probabilidad.
+ */
 const parseRatings = (container) => {
   const ratingsTable = container.querySelector("table > tbody");
   const allRatings = ratingsTable.querySelectorAll("tr");
@@ -65,6 +102,10 @@ const parseRatings = (container) => {
   return result;
 };
 
+/**
+ * parseCurrentSeller Extrae la información del vendedor en la página actual.
+ * @returns {Object} Un objeto con la información del vendedor.
+ */
 const parseCurrentSeller = () => {
   const container = document.querySelector(
     "#reviewsMedley .a-fixed-left-grid-col.a-col-left"
@@ -84,6 +125,11 @@ const parseCurrentSeller = () => {
   };
 };
 
+/**
+ * parseAllSellers    Extrae la información de múltiples vendedores del mismo
+ *                    producto.
+ * @return {[Object]} Objetos que contienen la información de los vendedores.
+ */
 const parseAllSellers = () => {
   const container = document.getElementById("aod-offer-list");
   if (!container) {
