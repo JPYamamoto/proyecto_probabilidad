@@ -5,7 +5,7 @@
 - En tu navegador Chrome, dirigirse a la url `chrome://extensions/`.
 - Habilitar el *Modo de desarrollador*, deslizando la selección en la parte superior izquierda de la pantalla.
 - En la barra superior que se depliega al realizar el paso anterior, seleccionar *Cargar extensión descomprimida*.
-- Seleccionar el directorio `src/` dentro de este proyecto.
+- Seleccionar el directorio `proyecto/` dentro de este proyecto.
 
 Con lo anterior ya podemos comenzar a utilizar la extensión. En caso de no desplegarse el ícono de la extensión a la derecha de la barra de navegación:
 
